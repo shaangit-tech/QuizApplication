@@ -1,0 +1,30 @@
+﻿@model List<Question>
+@{
+    var userAnswers = ViewBag.UserAnswers as List<UserAnswer>;
+
+    <h2>Quiz Results</h2>
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        var q = Model[i];
+        var userAnswer = userAnswers.FirstOrDefault(us => us.QuestionId == q.Id);
+        var selectedAnswer = q.Answers.FirstOrDefault(a => a.Id == userAnswer.SelectedAnswerId);
+
+        <div>
+            <strong>@q.Text</strong>
+            <ul>
+                @foreach (var a in q.Answers)
+                {
+                    var isSelected = userAnswer.SelectedAnswerId == a.Id;
+                    var isCorrect = a.IsCorrect;
+
+                    <li style="color:@(isSelected ? (isCorrect ? "green" : "red") : (isCorrect ? "blue" : "black"))">
+                        @(isSelected ? ">> " : "") @a.Text
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+
+    <p>Total Score: @userAnswers.Count(x => x.IsCorrect) / @Model.Count</p>
+}

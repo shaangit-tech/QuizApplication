@@ -1,0 +1,35 @@
+﻿@model Question
+
+<style>
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+    }
+
+    div {
+        margin: 10px 0;
+    }
+
+    button {
+        padding: 6px 12px;
+        font-weight: bold;
+        border: 1px solid black;
+        background-color: #f0f0f0;
+    }
+</style>
+
+<h2>@Model.Text</h2>
+
+<form method="post" asp-action="SubmitAnswer">
+    @foreach (var answer in Model.Answers)
+    {
+        <div>
+            <input type="radio" name="selectedAnswerId" value="@answer.Id" required>
+            @answer.Text
+        </div>
+    }
+
+    <input type="hidden" name="questionId" value="@Model.Id" />
+    <button type="submit">Next</button>
+</form>
