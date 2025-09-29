@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QuizApplication.Models;
+using QuizApplication.DataModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<QuizDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("dbcs")));
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("dbcs2")));
 
 builder.Services.AddSession();
 
@@ -31,6 +35,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Quiz}/{action=Index}/{id?}");
+    pattern: "{controller=QuizApp}/{action=Index}/{id?}");
 
 app.Run();
